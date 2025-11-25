@@ -10,12 +10,14 @@ public class Client {
     private String nom;
     private String nif;
     private LocalDate dataNeix;
+    private boolean Estada = false;
 
     public Client(String nom, String nif, LocalDate dataNeix) {
         this.nom = nom;
         this.nif = nif;
         this.dataNeix = dataNeix;
     }
+
     public String getNom() {
         return nom;
     }
@@ -28,8 +30,16 @@ public class Client {
         return dataNeix;
     }
 
+    public boolean getEstada() {
+        return Estada;
+    }
+
     public void setNom(String nom) {
         this.nom = nom;
+    }
+
+    public void setEstada(boolean Estada) {
+        this.Estada = Estada;
     }
 
     public void setNif(String nif) {

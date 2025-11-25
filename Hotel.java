@@ -13,7 +13,7 @@ public class Hotel {
 
     static boolean exitProgram = false;
     static int estadaCount = 0;
-
+    // crear array lists d'objectes
     static ArrayList<Client> clients = new ArrayList();
     static ArrayList<Habitacio> habitacions = new ArrayList();
     static ArrayList<Servei> serveis = new ArrayList();
@@ -25,13 +25,18 @@ public class Hotel {
         Servei Esmorzar = new Servei("Esmorzar", 11);
         Servei Dinar = new Servei("Dinar", 20);
         Servei Sopar = new Servei("Sopar", 18);
-
+        Client madalin = new Client("madalin", "1231231", LocalDate.of(2007, 01, 15));
+        Habitacio hab1 = new Habitacio(1, 1, 40.0);
+        // afegir-los al array list serveis
         serveis.add(Bugaderia);
         serveis.add(Esmorzar);
         serveis.add(Dinar);
         serveis.add(Sopar);
+        clients.add(madalin);
+        habitacions.add(hab1);
 
         // comencament del programa.
+        // menu principal
         while (!exitProgram) {
             System.out.println("  ");
             System.out.println("1. Alta nou client");
@@ -100,6 +105,7 @@ public class Hotel {
         }
     }
 
+// crea i afageix el client al array list de client
     static void addClient() {
         System.out.print("Nom: ");
         String cliName = sc.next();
@@ -113,12 +119,23 @@ public class Hotel {
         System.out.println("Client afegit a la base de dades...");
     }
 
+// un loop del size del array del client i ensenya les dedes del client.
     static void listClient() {
         for (int i = 0; i < clients.size(); i++) {
             System.out.println("Client " + i + ". " + clients.get(i).showData());
         }
     }
 
+// ensenya els clients que no estan en ninguna estada
+    static void listClientEstada() {
+        for (int i = 0; i < clients.size(); i++) {
+            if (clients.get(i).getEstada() != true) {
+                System.out.println("Client " + i + ". " + clients.get(i).showData());
+            }
+        }
+    }
+
+// crida listClient() i esculls quin vols modificar. amb les opcions dels client nom, dni, borrar
     static void modClient() {
         System.out.println("Quin client vols modificar?");
         listClient();
@@ -168,6 +185,7 @@ public class Hotel {
         }
     }
 
+// crea i afageix l'habitacio en l'array dels habitacions
     static void addHab() {
         System.out.print("Planta: ");
         int habPlanta = sc.nextInt();
@@ -191,12 +209,14 @@ public class Hotel {
         System.out.println("Habitacio afegida a la base de dades...");
     }
 
+// llista les habitacions del array.
     static void listHab() {
         for (int i = 0; i < habitacions.size(); i++) {
             System.out.println("Habitacio " + i + ". " + habitacions.get(i).showData());
         }
     }
 
+// Llista les habitacions no ocupades.
     static void listHabEstada() {
         for (int i = 0; i < habitacions.size(); i++) {
             if (habitacions.get(i).isOcupada() == false) {
@@ -205,6 +225,7 @@ public class Hotel {
         }
     }
 
+// crida listHab() i esculls quina habitacio vols modificar.
     static void modHab() {
         System.out.println("Quina habitacio vols modificar?");
         listHab();
@@ -270,6 +291,7 @@ public class Hotel {
         }
     }
 
+// afageix un servei al array list
     static void addServei() {
         System.out.print("Nom: ");
         String serveiName = sc.next();
@@ -279,12 +301,14 @@ public class Hotel {
         System.out.println("Servei afegit a la base de dades...");
     }
 
+// llista els serveis
     static void listServei() {
         for (int i = 0; i < serveis.size(); i++) {
             System.out.println("Servei " + i + ". " + serveis.get(i).showData());
         }
     }
 
+// llista els serevis i tries quin fer servir per modificar
     static void modServei() {
         System.out.println("Quin servei vols modificar?");
         listServei();
@@ -326,14 +350,17 @@ public class Hotel {
         }
     }
 
+// obj estada es crea i es afageix en l'arraylist 
     static void addEstada() {
         estadaCount++;
         // crear estada selecionant un client, habitacio i els serveis que vol el client
         estades.add(new Estada(estadaCount));
-        listClient();
+        listClientEstada();
         System.out.print("Escull el client: ");
         int clientChosen = sc.nextInt();
-        estades.getLast().addClientTOArray(clientChosen); // . add (number of client oin array list)
+        // canviar l'estatus del client
+        clients.get(clientChosen).setEstada(true);
+        estades.getLast().addClientTOArray(clientChosen); // . add (number of client in array list)
         listHabEstada();
         System.out.print("Escull l'habitacio: ");
         int habChosen = sc.nextInt();
@@ -360,6 +387,7 @@ public class Hotel {
         System.out.println("Estada creada.");
     }
 
+// lista les estades
     static void listEstada() {
         for (int i = 0; i < estades.size(); i++) {
             System.out.println("Estada " + i + ". " + estades.get(i).showDetails());
@@ -376,6 +404,7 @@ public class Hotel {
         }
     }
 
+// es el sub menu que fem serveir quan esta el client en l'hotel.
     static void useEstada() {
         listEstada();
         System.out.print("Escull quina estada vols fer servir: ");
@@ -415,6 +444,7 @@ public class Hotel {
 
     }
 
+// en l'estade seleccionada fa serveir un servei i afageix el preu a l'import.
     static void estadaServeis(int triarEstada) {
         System.out.println("Serveis: ");
         for (int j = 0; j < estades.get(triarEstada).getServeiEstada().size(); j++) {
@@ -435,14 +465,16 @@ public class Hotel {
         }
     }
 
+// ensenya l'import de l'estade selecionada
     static void estadaImport(int triarEstada) {
         System.out.println("Import actual: " + estades.get(triarEstada).getImportActual() + " euros.");
     }
 
+// des ocupa l'habitacio i canvia l'estat del client, calcula els dies i el iva de l'import
     static void estadaCheckout(int triarEstada) {
         System.out.println(" ");
         System.out.println("Data d'entrada " + estades.get(triarEstada).getDataEntrada());
-        System.out.print("Afegeix la data de sortida (YYYY MM DD): ");                
+        System.out.print("Afegeix la data de sortida (YYYY MM DD): ");
         int year = sc.nextInt();
         int month = sc.nextInt();
         int day = sc.nextInt();
@@ -459,10 +491,11 @@ public class Hotel {
         System.out.println("Preu sense IVA: " + estades.get(triarEstada).getImportActual() + " euros");
         System.out.println("Factura Final: " + estades.get(triarEstada).getFacturaFinal() + " euros");
         habitacions.get(estades.get(triarEstada).getHabitacioEstada().get(0)).setOcupada(false);
+        clients.get(estades.get(triarEstada).getClientEstada().get(0)).setEstada(false);
         System.out.println(" ");
-
     }
 
+// surt del programa
     static void exit() {
         System.out.println("Exiting...");
         exitProgram = true;
