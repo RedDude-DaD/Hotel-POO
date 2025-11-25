@@ -18,7 +18,7 @@ public class Hotel {
     static ArrayList<Habitacio> habitacions = new ArrayList();
     static ArrayList<Servei> serveis = new ArrayList();
     static ArrayList<Estada> estades = new ArrayList();
-    
+
     public static void main(String[] args) {
         // crear serveis predeterminats
         Servei Bugaderia = new Servei("Bugaderia", 10);
@@ -131,7 +131,8 @@ public class Hotel {
             System.out.println("1. Nom");
             System.out.println("2. NIF");
             System.out.println("3. Data Naixament");
-            System.out.println("4. exit ");
+            System.out.println("4. Borrar ");
+            System.out.println("5. Sortir ");
             System.out.print("input: ");
             int modCliOption = sc.nextInt();
             switch (modCliOption) {
@@ -153,6 +154,11 @@ public class Hotel {
                     clients.get(clientChoose).setDataNeix(LocalDate.of(year, month, day));
                     break;
                 case 4:
+                    clients.remove(clientChoose);
+                    System.out.println("Client Borrat.");
+                    modClientExitFields = true;
+                    break;
+                case 5:
                     modClientExitFields = true;
                     break;
                 default:
@@ -165,8 +171,20 @@ public class Hotel {
     static void addHab() {
         System.out.print("Planta: ");
         int habPlanta = sc.nextInt();
-        System.out.print("Num habitacio: ");
-        int habNumero = sc.nextInt();
+        boolean habExist = false;
+        int habNumero = 0;
+        while (!habExist) {
+            habExist = true;
+            System.out.print("Num habitacio: ");
+            habNumero = sc.nextInt();
+            for (int i = 0; i < habitacions.size(); i++) {
+                if (habitacions.get(i).getPlanta() == habPlanta && habitacions.get(i).getNumero() == habNumero) {
+                    habExist = false;
+                    System.out.println("Ja existeix aquesta planta.");
+                }
+            }
+        }
+
         System.out.print("Preu habitacio: ");
         double habPreu = sc.nextDouble();
         habitacions.add(new Habitacio(habPlanta, habNumero, habPreu));
@@ -200,7 +218,8 @@ public class Hotel {
             System.out.println("2. Numero");
             System.out.println("3. Preu");
             System.out.println("4. Ocupada");
-            System.out.println("5. exit ");
+            System.out.println("5. Borrar ");
+            System.out.println("6. exit ");
             System.out.print("input: ");
             int modHabOption = sc.nextInt();
             switch (modHabOption) {
@@ -211,7 +230,19 @@ public class Hotel {
                     break;
                 case 2:
                     System.out.print("Numero: ");
-                    int habNewNumber = sc.nextInt();
+                    int habNewNumber = 0;
+                    boolean habExist = false;
+                    while (!habExist) {
+                        habExist = true;
+                        System.out.print("Num habitacio: ");
+                        habNewNumber = sc.nextInt();
+                        for (int i = 0; i < habitacions.size(); i++) {
+                            if (habitacions.get(i).getPlanta() == habitacions.get(habChoose).getPlanta() && habitacions.get(i).getNumero() == habNewNumber) {
+                                habExist = false;
+                                System.out.println("Ja existeix aquesta planta.");
+                            }
+                        }
+                    }
                     habitacions.get(habChoose).setNumero(habNewNumber);
                     break;
                 case 3:
@@ -225,6 +256,11 @@ public class Hotel {
                     habitacions.get(habChoose).setOcupada(habNewStatus);
                     break;
                 case 5:
+                    habitacions.remove(habChoose);
+                    System.out.println("Habitacio borrada.");
+                    modHabExitFields = true;
+                    break;
+                case 6:
                     modHabExitFields = true;
                     break;
                 default:
@@ -260,7 +296,8 @@ public class Hotel {
             System.out.println("Quin camp vols modificar");
             System.out.println("1. Nom");
             System.out.println("2. Preu");
-            System.out.println("3. Exit");
+            System.out.println("3. Borrar");
+            System.out.println("4. Sortir");
             System.out.print("input: ");
             int modCliOption = sc.nextInt();
             switch (modCliOption) {
@@ -275,6 +312,11 @@ public class Hotel {
                     serveis.get(serveiChoose).setPreu(serveiNewPreu);
                     break;
                 case 3:
+                    serveis.remove(serveiChoose);
+                    System.out.println("Servei borrat.");
+                    modServeiExitFields = true;
+                    break;
+                case 4:
                     modServeiExitFields = true;
                     break;
                 default:
@@ -398,14 +440,9 @@ public class Hotel {
     }
 
     static void estadaCheckout(int triarEstada) {
-        // show entry date and time
-        // ask for date to calculate the days passed.
-        // show all services used. 
-        // add iva 16%
-        // free up room
         System.out.println(" ");
         System.out.println("Data d'entrada " + estades.get(triarEstada).getDataEntrada());
-        System.out.print("Afegeix la data de sortida (YYYY MM DD): ");
+        System.out.print("Afegeix la data de sortida (YYYY MM DD): ");                
         int year = sc.nextInt();
         int month = sc.nextInt();
         int day = sc.nextInt();
