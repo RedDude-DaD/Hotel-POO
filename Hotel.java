@@ -25,7 +25,9 @@ public class Hotel {
         Servei Esmorzar = new Servei("Esmorzar", 11);
         Servei Dinar = new Servei("Dinar", 20);
         Servei Sopar = new Servei("Sopar", 18);
-        Client madalin = new Client("madalin", "1231231", LocalDate.of(2007, 01, 15));
+        // client
+        Client madalin = new Client("madalin", "1111111X", LocalDate.of(2007, 01, 15));
+        // habitacio
         Habitacio hab1 = new Habitacio(1, 1, 40.0);
         // afegir-los al array list serveis
         serveis.add(Bugaderia);
