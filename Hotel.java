@@ -21,10 +21,10 @@ public class Hotel {
 
     public static void main(String[] args) {
         // crear serveis predeterminats
-        Servei Bugaderia = new Servei("Bugaderia", 10);
-        Servei Esmorzar = new Servei("Esmorzar", 11);
-        Servei Dinar = new Servei("Dinar", 20);
-        Servei Sopar = new Servei("Sopar", 18);
+        Servei Bugaderia = new Servei("Bugaderia", 10.0);
+        Servei Esmorzar = new Servei("Esmorzar", 11.5);
+        Servei Dinar = new Servei("Dinar", 20.9);
+        Servei Sopar = new Servei("Sopar", 18.0);
         // client
         Client madalin = new Client("madalin", "1111111X", LocalDate.of(2007, 01, 15));
         // habitacio
@@ -298,7 +298,7 @@ public class Hotel {
         System.out.print("Nom: ");
         String serveiName = sc.next();
         System.out.print("Preu: ");
-        int serveiPreu = sc.nextInt();
+        double serveiPreu = sc.nextDouble();
         serveis.add(new Servei(serveiName, serveiPreu));
         System.out.println("Servei afegit a la base de dades...");
     }
@@ -491,9 +491,12 @@ public class Hotel {
         estades.get(triarEstada).setImportActual(estades.get(triarEstada).getImportActual() + importDies);
         estades.get(triarEstada).setFacturaFinal(estades.get(triarEstada).getImportActual() * 1.16);
         System.out.println("Preu sense IVA: " + estades.get(triarEstada).getImportActual() + " euros");
-        System.out.println("Factura Final: " + estades.get(triarEstada).getFacturaFinal() + " euros");
+        System.out.print("Factura Final: ");
+        System.out.printf("%.2f", estades.get(triarEstada).getFacturaFinal());
+        System.out.print(" euros.");
         habitacions.get(estades.get(triarEstada).getHabitacioEstada().get(0)).setOcupada(false);
         clients.get(estades.get(triarEstada).getClientEstada().get(0)).setEstada(false);
+
         System.out.println(" ");
     }
 

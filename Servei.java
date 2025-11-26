@@ -6,9 +6,9 @@ package hotel;
 public class Servei {
 
     private String nom;
-    private int preu;
+    private double preu;
 
-    public Servei(String nom, int preu) {
+    public Servei(String nom, double preu) {
         this.nom = nom;
         this.preu = preu;
     }
@@ -17,7 +17,7 @@ public class Servei {
         return nom;
     }
 
-    public int getPreu() {
+    public double getPreu() {
         return preu;
     }
 
